@@ -1,12 +1,13 @@
 {
   "name": "generatorcollection",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projeto que tem como intuito gerar uma collection a partir de um swagger.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gabriel Delgado",
+  "type": "module",
   "license": "ISC"
 }
