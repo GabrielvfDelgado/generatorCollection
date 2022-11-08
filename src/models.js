@@ -44,16 +44,12 @@ export const item = {
   request: {
     method: null,
     header: [
-      {
-        key: "Content-Type",
-        value: "application/json",
-        type: "text"
-      }
     ],
-    "url": {
-      "raw": "{{url}}",
-      "host": [
-        "{{url}}"
+    url: {
+      raw: null,
+      host: [
+      ],
+      query: [
       ]
     }
 
