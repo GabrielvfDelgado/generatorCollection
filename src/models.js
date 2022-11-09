@@ -49,6 +49,7 @@ export const item = {
       raw: null,
       host: [
       ],
+      body: null,
       query: [
       ]
     }

@@ -57,13 +57,52 @@ function getQuery(parameters) {
     }
   }
   if (query[0] == null) {
-    console.log("nao tem query");
     return 0;
   } else {
-    console.log("tem");
     return query;
   }
 }
+
+function getHeader(parameters) {
+  let header = [{
+    key: "Content-Type",
+    value: "application/json",
+    type: "text"
+  }];
+  for (let index in parameters) {
+    if (parameters[index].in === "header") {
+      header.push({
+        key: parameters[index].name,
+        value: "insira aqui",
+        type: "text"
+      });
+    }
+  }
+  return header;
+}
+
+function addQuery(collection, parameters, indexResource, indexItem) {
+  let querys = getQuery(parameters);
+  if (!(querys == 0)) {
+    collection.item[indexResource].item[indexItem].request.url.query = querys;
+  }
+}
+
+
+function addHeader(collection, parameters, indexResource, indexItem) {
+  let headers = getHeader(parameters);
+  collection.item[indexResource].item[indexItem].request.header = headers;
+}
+
+function addBody(collection, method, indexResource, indexItem) {
+  if (method == 'put' || method == 'post') {
+    collection.item[indexResource].item[indexItem].request.body = {
+      "mode": "raw",
+      "raw": "{\r\n    \r\n}"
+    };
+  }
+}
+
 
 function generatorReq(collection, paths) {
   let indexResource;
@@ -94,19 +133,16 @@ function generatorReq(collection, paths) {
       collection.item[indexResource].item.push(copia);
       collection.item[indexResource].item[indexItem].name = recurso;
       collection.item[indexResource].item[indexItem].request.method = method;
-      collection.item[indexResource].item[indexItem].request.header.push({
-        key: "Content-Type",
-        value: "application/json",
-        type: "text"
-      });
       collection.item[indexResource].item[indexItem].request.url.raw = "{{url}}" + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
       collection.item[indexResource].item[indexItem].request.url.host[0] = "{{url}}" + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
-      if (getQuery(objeto[method].parameters) == 0) {
 
-      } else {
-        collection.item[indexResource].item[indexItem].request.url.query = getQuery(objeto[method].parameters);
-      }
+      addQuery(collection, objeto[method].parameters, indexResource, indexItem);
+      addHeader(collection, objeto[method].parameters, indexResource, indexItem);
+      addBody(collection, method, indexResource, indexItem);
       arrControle[indexArr].finalIndex += 1;
+
+      // addRequest();
+      // addBody();
     }
   }
 }
