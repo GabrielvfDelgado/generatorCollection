@@ -1,4 +1,4 @@
-import { modelNewColletion, item, corpo } from './models.js';
+import { modelNewColletion, item, corpo, example } from './models.js';
 
 
 function generatorFolder(collection, paths) {
@@ -102,7 +102,17 @@ function addBody(collection, method, indexResource, indexItem) {
     };
   }
 }
+function addExample(nome, method, collection, indexResource, indexItem) {
+  let copiaResp = JSON.parse(JSON.stringify(example));
+  copiaResp.name = nome;
+  copiaResp.originalRequest.method = method;
+  copiaResp.originalRequest.header = collection.item[indexResource].item[indexItem].request.header;
+  copiaResp.originalRequest.url.raw = collection.item[indexResource].item[indexItem].request.url.raw;
+  copiaResp.originalRequest.url.host[0] = collection.item[indexResource].item[indexItem].request.url.host[0];
+  copiaResp.originalRequest.url.query = collection.item[indexResource].item[indexItem].request.url.query;
+  collection.item[indexResource].item[indexItem].response.push(copiaResp);
 
+}
 
 function generatorReq(collection, paths) {
   let indexResource;
@@ -139,6 +149,8 @@ function generatorReq(collection, paths) {
       addQuery(collection, objeto[method].parameters, indexResource, indexItem);
       addHeader(collection, objeto[method].parameters, indexResource, indexItem);
       addBody(collection, method, indexResource, indexItem);
+      addExample("Success", method, collection, indexResource, indexItem);
+      addExample("Failure", method, collection, indexResource, indexItem);
       arrControle[indexArr].finalIndex += 1;
 
       // addRequest();

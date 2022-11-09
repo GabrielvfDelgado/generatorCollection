@@ -65,5 +65,26 @@ export const corpo = {
   "name": null,
   item: [
   ]
-}
+};
 
+
+export const example = {
+  name: null,
+  originalRequest: {
+    method: null,
+    header: [
+    ],
+    url: {
+      raw: null,
+      host: [
+
+      ],
+      query: [
+      ]
+    }
+  },
+  _postman_previewlanguage: null,
+  header: null,
+  cookie: [],
+  body: null
+};
