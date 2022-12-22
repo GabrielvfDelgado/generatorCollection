@@ -1,0 +1,1 @@
+Swaggers que devem ser usados podem ficar aqui ou em outro lugar.

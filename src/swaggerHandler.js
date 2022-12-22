@@ -114,7 +114,7 @@ function addExample(nome, method, collection, indexResource, indexItem) {
 
 }
 
-function generatorReq(collection, paths) {
+function generatorReq(collection, paths, basepath) {
   let indexResource;
   let indexItem = 0;
   let arrControle = [];
@@ -143,9 +143,8 @@ function generatorReq(collection, paths) {
       collection.item[indexResource].item.push(copia);
       collection.item[indexResource].item[indexItem].name = recurso;
       collection.item[indexResource].item[indexItem].request.method = method;
-      collection.item[indexResource].item[indexItem].request.url.raw = "{{url}}" + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
-      collection.item[indexResource].item[indexItem].request.url.host[0] = "{{url}}" + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
-
+      collection.item[indexResource].item[indexItem].request.url.raw = "{{url}}" + basepath + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
+      collection.item[indexResource].item[indexItem].request.url.host[0] = "{{url}}" + basepath + recurso.replace(/[{]+/g, ':').replace(/[}]+/g, '');
       addQuery(collection, objeto[method].parameters, indexResource, indexItem);
       addHeader(collection, objeto[method].parameters, indexResource, indexItem);
       addBody(collection, method, indexResource, indexItem);
@@ -163,7 +162,13 @@ function generatorReq(collection, paths) {
 export function collectionCreation(swagger) {
   modelNewColletion.info.name = swagger.info.title.replace('.', ' ');
   const paths = swagger.paths;
+
+  const str = swagger.servers[0].url;
+  const word = str.split('/')[3];
+  const basepath = str.substring(str.indexOf(word) - 1);
+  console.log(basepath);
+
   generatorFolder(modelNewColletion, paths);
-  generatorReq(modelNewColletion, paths);
+  generatorReq(modelNewColletion, paths, basepath);
   return modelNewColletion;
 };

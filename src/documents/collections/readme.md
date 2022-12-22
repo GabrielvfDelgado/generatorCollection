@@ -1,0 +1,1 @@
+Collections geradas, ficaram aqui

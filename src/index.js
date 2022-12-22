@@ -6,10 +6,14 @@ const path = argv[2].replace(/\\/g, "/") || './documents/swaggers/swagger.json';
 const rawData = readFileSync(path);
 const data = JSON.parse(rawData);
 
-// const clone = Object.assign({}, modelNewColletion);
-// clone.name = 'gabriel';
-// collectionCreation(data)
-console.log(collectionCreation(data).item[0].item);
+const test = collectionCreation(data);
+const title = test.info.name;
+const version = '1.0.0';
+const file = `${title}_${version}_collection.json`;
+const body = JSON.stringify(test, 0, 2);
+writeFileSync(`./src/documents/collections/${file}`, body);
+
+
 
 
 
